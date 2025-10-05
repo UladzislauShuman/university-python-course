@@ -1,0 +1,52 @@
+# Название нашего workflow, которое будет отображаться в GitHub
+name: Python CI for Lab 2
+
+# Триггеры: когда запускать этот workflow
+on:
+  # Запускать при каждом push в ветку main
+  push:
+    branches: [ main, master ] # Укажите вашу основную ветку (часто main или master)
+  # Запускать при создании Pull Request в эти ветки
+  pull_request:
+    branches: [ main, master ]
+
+# Задачи (jobs), которые нужно выполнить
+jobs:
+  # Название задачи. Может быть любым, например, build, test и т.д.
+  test:
+    # На какой операционной системе запускать. ubuntu-latest - стандартный и быстрый вариант.
+    runs-on: ubuntu-latest
+
+    # Здесь мы решаем проблему с подпапкой!
+    # Устанавливаем рабочую директорию по умолчанию для всех шагов в этой задаче.
+    defaults:
+      run:
+        working-directory: ./lab2_solovey # путь к проекту
+
+    # Шаги
+    steps:
+      # 1: Клонирование репозитория
+      # Этот стандартный action скачивает код вашего репозитория на раннер
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      # 2: Установка Python
+      # Этот action устанавливает нужную версию Python
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9' # Версия Python, как в требованиях
+
+      # 3: Установка зависимостей
+      # Выполняем команду pip install. Она будет выполнена
+      # в директории, указанной в `working-directory`.
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      # 4: Запуск тестов
+      # Запускаем pytest. Он автоматически найдет и выполнит все тесты.
+      - name: Run tests with pytest
+        run: |
+          pytest
