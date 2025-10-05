@@ -12,3 +12,6 @@
     - `touch tests/__init__.py tests/conftest.py tests/test_models.py tests/test_processing.py tests/test_io_utils.py tests/test_main_cli.py`
     - `touch pytest.ini`
 - `touch .gitignore README.md`
+
+## Запуск
+- `python -m lab.main`
