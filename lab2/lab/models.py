@@ -2,9 +2,12 @@
 модуль для определения моделей данных.
 """
 
+from dataclasses import dataclass, field
+from typing import List
 from lab.errors import DataValidationError
 
 
+@dataclass
 class Student:
     """
     класс для представления сущности 'студент'.
@@ -14,40 +17,37 @@ class Student:
         name (str): полное имя студента.
         grades (list[int]): список оценок студента (от 0 до 100).
     """
+    id: int
+    name: str
+    grades: List[int] = field(default_factory=list)
 
-    def __init__(self, id: int, name: str, grades: list[int]):
+    def __post_init__(self):
         """
-        инициализирует объект студента и проверяет корректность входных данных.
-
-        может вызвать исключение DataValidationError
+        валидация данных после метода __init__
         """
         # --- валидация id ---
-        if not isinstance(id, int) or id <= 0:
+        if not isinstance(self.id, int) or self.id <= 0:
             raise DataValidationError("id студента должен быть положительным целым числом.")
-        self.id = id
 
         # --- валидация имени ---
-        if not isinstance(name, str) or not name.strip():
+        if not isinstance(self.name, str) or not self.name.strip():
             raise DataValidationError("имя студента не может быть пустым.")
-        # .strip() убирает пробелы в начале и конце строки
-        self.name = name.strip()
+        self.name = self.name.strip()
 
         # --- валидация оценок ---
-        if not isinstance(grades, list):
+        if not isinstance(self.grades, list):
             raise DataValidationError("оценки должны быть представлены в виде списка.")
         
-        # проверяем, что каждый элемент в списке - это число от 0 до 100
-        for grade in grades:
+        for grade in self.grades:
             if not isinstance(grade, int) or not (0 <= grade <= 100):
                 raise DataValidationError(f"некорректная оценка: '{grade}'. оценка должна быть целым числом от 0 до 100.")
-        self.grades = grades
 
     @property
     def average(self) -> float:
         """
         вычисляет и возвращает средний балл студента.
 
-        если список оценок пуст, возвращает 0.0
+        если список оценок пуст, возвращает 0.0.
         """
         if not self.grades:
             return 0.0
@@ -59,10 +59,3 @@ class Student:
         """
         grades_str = ', '.join(map(str, self.grades)) if self.grades else "оценок нет"
         return f"ID: {self.id}, Имя: {self.name}, Оценки: [{grades_str}], Средний балл: {self.average:.2f}"
-
-    def __repr__(self) -> str:
-        """
-        возвращает строковое представление объекта, которое может быть использовано
-        для воссоздания этого объекта.
-        """
-        return f"Student(id={self.id}, name='{self.name}', grades={self.grades})"

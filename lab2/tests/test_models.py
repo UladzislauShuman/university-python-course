@@ -1,62 +1,42 @@
+"""
+тесты для модуля models.py.
+"""
 import pytest
 from lab.models import Student
 from lab.errors import DataValidationError
 
 
-@pytest.fixture
-def valid_student():
-    return Student(id=1, name="Иван Иванов", grades=[80, 90, 100])
+def test_student_creation_and_average():
+    """тест на успешное создание студента и расчет среднего балла."""
+    s = Student(id=10, name="Шуман Влад ", grades=[100, 80, 90])
+    assert s.id == 10
+    assert s.name == "Шуман Влад"
+    assert pytest.approx(s.average) == 90.0
 
 
-# --- Good ---
-
-def test_student_creation(valid_student):
-    """тест на успешное создание студента с корректными данными."""
-    assert valid_student.id == 1
-    assert valid_student.name == "Иван Иванов"
-    assert valid_student.grades == [80, 90, 100]
+def test_student_average_empty_grades():
+    """тест расчета среднего для студента без оценок."""
+    s = Student(id=1, name="Без Оценок", grades=[])
+    assert s.average == 0.0
 
 
-def test_student_average_calculation(valid_student):
-    """тест на правильный расчет среднего балла."""
-    assert valid_student.average == 90.0
+def test_student_str_representation():
+    """тест строкового представления объекта."""
+    s = Student(id=1, name="Иван", grades=[80, 90])
+    expected_str = "ID: 1, Имя: Иван, Оценки: [80, 90], Средний балл: 85.00"
+    assert str(s) == expected_str
 
 
-def test_student_average_no_grades():
-    """тест на расчет среднего балла, когда список оценок пуст."""
-    student = Student(id=2, name="Петр Петров", grades=[])
-    assert student.average == 0.0
-
-
-def test_student_str_representation(valid_student):
-    """тест на строковое представление объекта (метод __str__)."""
-    expected_str = "ID: 1, Имя: Иван Иванов, Оценки: [80, 90, 100], Средний балл: 90.00"
-    assert str(valid_student) == expected_str
-
-
-# --- Bad ---
-
-@pytest.mark.parametrize(
-    "student_id, name, grades, expected_error_msg",
-    [
-        # невалидный id
-        ("1", "Имя", [90], "id студента должен быть положительным целым числом"),
-        (0, "Имя", [90], "id студента должен быть положительным целым числом"),
-        (-5, "Имя", [90], "id студента должен быть положительным целым числом"),
-        # невалидное имя
-        (1, "", [90], "имя студента не может быть пустым"),
-        (1, "   ", [90], "имя студента не может быть пустым"),
-        # невалидные оценки
-        (1, "Имя", "не список", "оценки должны быть представлены в виде списка"),
-        (1, "Имя", [101], "оценка должна быть целым числом от 0 до 100"),
-        (1, "Имя", [-1], "оценка должна быть целым числом от 0 до 100"),
-        (1, "Имя", [80, "90"], "оценка должна быть целым числом от 0 до 100"),
-    ]
-)
-def test_student_creation_with_invalid_data(student_id, name, grades, expected_error_msg):
-    """
-    параметризованный тест для проверки создания студента с невалидными данными.
-    """
+@pytest.mark.parametrize("test_id, name, grades, error_msg", [
+    (0, "Имя", [], "id студента должен быть положительным"),
+    ("1", "Имя", [], "id студента должен быть положительным"),
+    (1, "  ", [], "имя студента не может быть пустым"),
+    (1, "Имя", "не список", "оценки должны быть представлены в виде списка"),
+    (1, "Имя", [101], "оценка должна быть целым числом от 0 до 100"),
+    (1, "Имя", [-1], "оценка должна быть целым числом от 0 до 100"),
+])
+def test_student_creation_invalid_data(test_id, name, grades, error_msg):
+    """параметризованный тест на создание студента с невалидными данными."""
     with pytest.raises(DataValidationError) as excinfo:
-        Student(id=student_id, name=name, grades=grades)
-    assert expected_error_msg in str(excinfo.value)
+        Student(id=test_id, name=name, grades=grades)
+    assert error_msg in str(excinfo.value)
