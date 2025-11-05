@@ -21,7 +21,7 @@ jobs:
     # Устанавливаем рабочую директорию по умолчанию для всех шагов в этой задаче.
     defaults:
       run:
-        working-directory: ./lab2_solovey # путь к проекту
+        working-directory: ./lab2 # путь к проекту
 
     # Шаги
     steps:
