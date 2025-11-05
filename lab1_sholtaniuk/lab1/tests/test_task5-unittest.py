@@ -1,3 +1,4 @@
+# python -m lab1.tests.test_task5-unittest
 import unittest
 from lab1.src.task5 import what_can_buy
 
