@@ -9,6 +9,19 @@ from typing import List, Dict, Any
 from lab.models import Student
 from lab.errors import DataValidationError, DuplicateStudentIdError, StudentNotFoundError
 
+def find_student_by_id(students, student_id):
+    """
+    находит студента по ID
+    
+    возвращает объект Student или None, если не найден.
+    """
+    student_to_find = None  
+    for student in students:
+        if student.id == student_id:
+            student_to_find = student
+            break 
+    
+    return student_to_find
 
 def add_student(students: List[Student], new_student: Student):
     """
@@ -16,7 +29,7 @@ def add_student(students: List[Student], new_student: Student):
     
     изменяет переданный список `students`
     """
-    if any(s.id == new_student.id for s in students):
+    if find_student_by_id(students=students, student_id=new_student.id) != None:
         raise DuplicateStudentIdError(f"студент с id={new_student.id} уже существует.")
     students.append(new_student)
 
@@ -27,7 +40,7 @@ def remove_student_by_id(students: List[Student], student_id: int):
     
     изменяет переданный список `students`
     """
-    student_to_remove = next((s for s in students if s.id == student_id), None)
+    student_to_remove = find_student_by_id(students=students, student_id=student_id)
     if student_to_remove:
         students.remove(student_to_remove)
     else:
@@ -40,7 +53,7 @@ def update_student_grades(students: List[Student], student_id: int, new_grades: 
     
     изменяет переданный список `students`
     """
-    student_to_update = next((s for s in students if s.id == student_id), None)
+    student_to_update = find_student_by_id(students=students, student_id=student_id)
     if student_to_update:
         for grade in new_grades:
             if not isinstance(grade, int) or not (0 <= grade <= 100):

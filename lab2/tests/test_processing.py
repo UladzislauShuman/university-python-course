@@ -41,7 +41,7 @@ def test_add_remove_update_logic(sample_students):
 
 def test_sort_students(sample_students):
     """тестирует все виды сортировки."""
-    # avh disc
+    # avg disc
     by_avg = processing.sort_students(sample_students, by="avg")
     assert [s.id for s in by_avg] == [3, 1, 2]  # 90.0, 85.0, 70.0
 
