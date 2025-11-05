@@ -57,8 +57,14 @@ jobs:
           # Если нужно включить папку data, можно добавить:
           # pyinstaller --onefile --add-data "data;data" main.py
 
+
+      - name: List files in the workspace
+        run: |
+          dir /s
+        shell: cmd
+      
       - name: Upload EXE artifact
         uses: actions/upload-artifact@v4
         with:
           name: lab2-exe
-          path: dist/main.exe
+          path: ${{ github.workspace }}/lab2/dist/main.exe
