@@ -53,7 +53,7 @@ jobs:
 
       - name: Build EXE with PyInstaller
         run: |
-          pyinstaller --onefile main.py
+          pyinstaller --onefile lab/main.py
           # Если нужно включить папку data, можно добавить:
           # pyinstaller --onefile --add-data "data;data" main.py
 
