@@ -6,6 +6,51 @@ import sqlite3
 from sklearn.preprocessing import LabelEncoder
 
 
+# --- РАСШИФРОВКА КОДОВ ---
+# Словарь значений согласно документации german.doc
+decoding_map = {
+    # 1. Status of existing checking account
+    'A11': '< 0 DM',
+    'A12': '0 <= x < 200 DM',
+    'A13': '>= 200 DM',
+    'A14': 'No checking account',
+
+    # 3. Credit history
+    'A30': 'No credits taken',
+    'A31': 'All credits paid back',
+    'A32': 'Existing credits paid back',
+    'A33': 'Delay in past',
+    'A34': 'Critical account',
+
+    # 4. Purpose
+    'A40': 'Car (new)',
+    'A41': 'Car (used)',
+    'A42': 'Furniture/Equipment',
+    'A43': 'Radio/TV',
+    'A44': 'Domestic appliances',
+    'A45': 'Repairs',
+    'A46': 'Education',
+    'A47': 'Vacation',
+    'A48': 'Retraining',
+    'A49': 'Business',
+    'A410': 'Others',
+
+    # 6. Savings account/bonds
+    'A61': '< 100 DM',
+    'A62': '100 <= x < 500 DM',
+    'A63': '500 <= x < 1000 DM',
+    'A64': '>= 1000 DM',
+    'A65': 'Unknown/No savings',
+    
+    # 7. Employment present since
+    'A71': 'Unemployed',
+    'A72': '< 1 year',
+    'A73': '1 <= x < 4 years',
+    'A74': '4 <= x < 7 years',
+    'A75': '>= 7 years',
+}
+
+
 # ЧТЕНИЕ ДАННЫХ
 # Настройка стиля графиков
 sns.set(style="whitegrid")
@@ -57,8 +102,15 @@ print(missing_values[missing_values > 0])
 if df.isnull().sum().sum() == 0:
     print("\nПропущенных значений не обнаружено.")
 else:
-    # Если бы были пропуски, здесь был бы код для их обработки (fillna или dropna)
+    # Если бы были пропуски, здесь был бы код для их обработки
     pass
+
+# Применяем замену кодов на слова во всем датафрейме
+# replace найдет в таблице значения 'A11', 'A40' и т.д. и заменит их на текст
+df = df.replace(decoding_map)
+
+print("Коды успешно заменены на понятные названия!")
+print(df.head()) # Проверим, что теперь там слова
 
 # перекодируем целевую переменную: 1 -> 0 (Good), 2 -> 1 (Bad)
 df['Credit_Risk'] = df['Credit_Risk'].map({1: 0, 2: 1})
@@ -131,7 +183,7 @@ plt.show()
 
 # Сравниваем распределение сумм для Good (0) и Bad (1)
 plt.figure(figsize=(8, 6))
-sns.boxplot(x='Credit_Risk', y='Credit_Amount', data=df, palette='Set2')
+sns.boxplot(x='Credit_Risk', y='Credit_Amount', data=df, hue='Credit_Risk', palette='Set2', legend=False)
 plt.title('Распределение суммы кредита в зависимости от риска')
 plt.xticks([0, 1], ['Good (0)', 'Bad (1)'])
 plt.show()
