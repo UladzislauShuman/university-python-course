@@ -1,0 +1,257 @@
+Данные успешно загружены!
+
+Размер датасета: (1000, 21)
+
+Первые 5 строк:
+  Checking_Account_Status  Duration_Months Credit_History Purpose  \
+0                     A11                6            A34     A43   
+1                     A12               48            A32     A43   
+2                     A14               12            A34     A46   
+3                     A11               42            A32     A42   
+4                     A11               24            A33     A40   
+
+   Credit_Amount Savings_Account Employment_Since  Installment_Rate  \
+0           1169             A65              A75                 4   
+1           5951             A61              A73                 2   
+2           2096             A61              A74                 2   
+3           7882             A61              A74                 2   
+4           4870             A61              A73                 3   
+
+  Personal_Status_Sex Other_Debtors  Residence_Since Property  Age  \
+0                 A93          A101                4     A121   67   
+1                 A92          A101                2     A121   22   
+2                 A93          A101                3     A121   49   
+3                 A93          A103                4     A122   45   
+4                 A93          A101                4     A124   53   
+
+  Other_Installment_Plans Housing  Existing_Credits   Job  Dependents  \
+0                    A143    A152                 2  A173           1   
+1                    A143    A152                 1  A173           1   
+2                    A143    A152                 1  A172           2   
+3                    A143    A153                 1  A173           2   
+4                    A143    A153                 2  A173           2   
+
+  Telephone Foreign_Worker  Credit_Risk  
+0      A192           A201            1  
+1      A191           A201            2  
+2      A191           A201            1  
+3      A191           A201            1  
+4      A191           A201            2  
+
+Пропущенные значения по столбцам:
+Series([], dtype: int64)
+
+Пропущенных значений не обнаружено.
+Коды успешно заменены на понятные названия!
+  Checking_Account_Status  Duration_Months              Credit_History  \
+0                  < 0 DM                6            Critical account   
+1         0 <= x < 200 DM               48  Existing credits paid back   
+2     No checking account               12            Critical account   
+3                  < 0 DM               42  Existing credits paid back   
+4                  < 0 DM               24               Delay in past   
+
+               Purpose  Credit_Amount     Savings_Account  Employment_Since  \
+0             Radio/TV           1169  Unknown/No savings        >= 7 years   
+1             Radio/TV           5951            < 100 DM  1 <= x < 4 years   
+2            Education           2096            < 100 DM  4 <= x < 7 years   
+3  Furniture/Equipment           7882            < 100 DM  4 <= x < 7 years   
+4            Car (new)           4870            < 100 DM  1 <= x < 4 years   
+
+   Installment_Rate Personal_Status_Sex Other_Debtors  Residence_Since  \
+0                 4                 A93          A101                4   
+1                 2                 A92          A101                2   
+2                 2                 A93          A101                3   
+3                 2                 A93          A103                4   
+4                 3                 A93          A101                4   
+
+  Property  Age Other_Installment_Plans Housing  Existing_Credits   Job  \
+0     A121   67                    A143    A152                 2  A173   
+1     A121   22                    A143    A152                 1  A173   
+2     A121   49                    A143    A152                 1  A172   
+3     A122   45                    A143    A153                 1  A173   
+4     A124   53                    A143    A153                 2  A173   
+
+   Dependents Telephone Foreign_Worker  Credit_Risk  
+0           1      A192           A201            1  
+1           1      A191           A201            2  
+2           2      A191           A201            1  
+3           2      A191           A201            1  
+4           2      A191           A201            2  
+
+Целевая переменная 'Credit_Risk' перекодирована: 0 - Good, 1 - Bad
+
+--- Статистика по числовым признакам ---
+              Duration_Months  Credit_Amount  Installment_Rate  \
+Количество            1000.00        1000.00           1000.00   
+Среднее                 20.90        3271.26              2.97   
+Станд. откл.            12.06        2822.74              1.12   
+Минимум                  4.00         250.00              1.00   
+25%                     12.00        1365.50              2.00   
+Медиана                 18.00        2319.50              3.00   
+75%                     24.00        3972.25              4.00   
+Максимум                72.00       18424.00              4.00   
+
+              Residence_Since      Age  Existing_Credits  Dependents  \
+Количество            1000.00  1000.00           1000.00     1000.00   
+Среднее                  2.84    35.55              1.41        1.16   
+Станд. откл.             1.10    11.38              0.58        0.36   
+Минимум                  1.00    19.00              1.00        1.00   
+25%                      2.00    27.00              1.00        1.00   
+Медиана                  3.00    33.00              1.00        1.00   
+75%                      4.00    42.00              2.00        1.00   
+Максимум                 4.00    75.00              4.00        2.00   
+
+              Credit_Risk  
+Количество        1000.00  
+Среднее              0.30  
+Станд. откл.         0.46  
+Минимум              0.00  
+25%                  0.00  
+Медиана              0.00  
+75%                  1.00  
+Максимум             1.00  
+
+--- Статистика по категориальным признакам ---
+             Checking_Account_Status              Credit_History   Purpose  \
+Количество                      1000                        1000      1000   
+Уникальных                         4                           5        10   
+Самое частое     No checking account  Existing credits paid back  Radio/TV   
+Частота                          394                         530       280   
+
+             Savings_Account  Employment_Since Personal_Status_Sex  \
+Количество              1000              1000                1000   
+Уникальных                 5                 5                   4   
+Самое частое        < 100 DM  1 <= x < 4 years                 A93   
+Частота                  603               339                 548   
+
+             Other_Debtors Property Other_Installment_Plans Housing   Job  \
+Количество            1000     1000                    1000    1000  1000   
+Уникальных               3        4                       3       3     4   
+Самое частое          A101     A123                    A143    A152  A173   
+Частота                907      332                     814     713   630   
+
+             Telephone Foreign_Worker  
+Количество        1000           1000  
+Уникальных           2              2  
+Самое частое      A191           A201  
+Частота            596            963  
+
+Распределение целевой переменной Credit_Risk
+Good (0): 70.00%
+Bad (1):  30.00%
+
+Кодирование следующих столбцов методом Label Encoding: ['Checking_Account_Status', 'Credit_History', 'Purpose', 'Savings_Account', 'Employment_Since', 'Personal_Status_Sex', 'Other_Debtors', 'Property', 'Other_Installment_Plans', 'Housing', 'Job', 'Telephone', 'Foreign_Worker']
+Кодирование завершено. Первые 5 строк закодированного датасета:
+   Checking_Account_Status  Duration_Months  Credit_History  Purpose  \
+0                        1                6               1        7   
+1                        0               48               3        7   
+2                        3               12               1        4   
+3                        1               42               3        5   
+4                        1               24               2        1   
+
+   Credit_Amount  Savings_Account  Employment_Since  Installment_Rate  \
+0           1169                4                 3                 4   
+1           5951                2                 0                 2   
+2           2096                2                 1                 2   
+3           7882                2                 1                 2   
+4           4870                2                 0                 3   
+
+   Personal_Status_Sex  Other_Debtors  Residence_Since  Property  Age  \
+0                    2              0                4         0   67   
+1                    1              0                2         0   22   
+2                    2              0                3         0   49   
+3                    2              2                4         1   45   
+4                    2              0                4         3   53   
+
+   Other_Installment_Plans  Housing  Existing_Credits  Job  Dependents  \
+0                        2        1                 2    2           1   
+1                        2        1                 1    2           1   
+2                        2        1                 1    1           2   
+3                        2        2                 1    2           2   
+4                        2        2                 2    2           2   
+
+   Telephone  Foreign_Worker  Credit_Risk  
+0          1               0            0  
+1          0               0            1  
+2          0               0            0  
+3          0               0            0  
+4          0               0            1  
+
+Построение графиков...
+
+Работа с SQL
+База данных создана, данные загружены в таблицу 'credits'.
+
+Запрос: Агрегация по статусу риска (0=Good, 1=Bad)
+
+SELECT 
+    Credit_Risk,
+    COUNT(*) as Client_Count,
+    ROUND(AVG(Credit_Amount), 2) as Avg_Credit_Amount,
+    ROUND(AVG(Age), 1) as Avg_Age
+FROM credits
+GROUP BY Credit_Risk
+
+Результат:
+   Credit_Risk  Client_Count  Avg_Credit_Amount  Avg_Age
+0            0           700            2985.46     36.2
+1            1           300            3938.13     34.0
+
+Запрос: Топ-5 целей кредитования
+
+SELECT 
+    Purpose, 
+    COUNT(*) as Count, 
+    ROUND(AVG(Credit_Amount), 2) as Avg_Amount
+FROM credits 
+GROUP BY Purpose 
+ORDER BY Count DESC 
+LIMIT 5
+
+Результат:
+               Purpose  Count  Avg_Amount
+0             Radio/TV    280     2487.65
+1            Car (new)    234     3063.03
+2  Furniture/Equipment    181     3066.99
+3           Car (used)    103     5370.22
+4             Business     97     4158.04
+
+Запрос: Выборка крупных невозвратных кредитов (> 10 000 DM)
+
+SELECT 
+    Purpose, 
+    Credit_Amount, 
+    Duration_Months, 
+    Age 
+FROM credits 
+WHERE Credit_Amount > 10000 AND Credit_Risk = 1
+ORDER BY Credit_Amount DESC
+
+Результат:
+                Purpose  Credit_Amount  Duration_Months  Age
+0                Others          18424               48   32
+1              Business          15945               54   58
+2              Business          15672               48   23
+3             Car (new)          14896                6   68
+4                Others          14782               60   60
+5             Car (new)          14555                6   23
+6              Business          14421               48   25
+7             Car (new)          14318               36   57
+8             Car (new)          14027               60   27
+9            Car (used)          12976               18   38
+10            Car (new)          12680               21   30
+11            Education          12612               36   47
+12           Car (used)          12579               24   44
+13            Car (new)          12389               36   37
+14              Repairs          11998               30   34
+15               Others          11938               24   39
+16             Business          11816               45   29
+17           Car (used)          11590               48   24
+18           Car (used)          11560               24   23
+19               Others          11328               24   29
+20  Furniture/Equipment          10974               36   26
+21             Radio/TV          10961               48   27
+22           Car (used)          10297               48   39
+23            Car (new)          10127               48   44
+
+Работа завершена.
